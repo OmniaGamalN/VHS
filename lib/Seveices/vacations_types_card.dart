@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 class VacationsTypesCard extends StatelessWidget {
   const VacationsTypesCard({
     super.key,
-    required this.vacationCardColor,
     required this.vacationsIconColor,
     required this.vacationTypesCardTitle,
     required this.daysNumber,
   });
 
-  final Color vacationCardColor;
   final Color vacationsIconColor;
   final String? vacationTypesCardTitle;
   final int daysNumber;
@@ -22,7 +20,7 @@ class VacationsTypesCard extends StatelessWidget {
           width: 207,
           height: 163,
           child: Card(
-            color: vacationCardColor,
+            color: vacationsIconColor.withOpacity(0.3),
             elevation: 1,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

@@ -68,12 +68,10 @@ class _DashboardPageState extends State<DashboardPage> {
   ];
   List<Widget> vacationsTypesList = [
     const VacationsTypesCard(
-        vacationCardColor: Color(0xffE4EFF5),
         vacationsIconColor: Color(0xff0C57A8),
         vacationTypesCardTitle: 'Regular Vacation',
         daysNumber: 16),
     const VacationsTypesCard(
-        vacationCardColor: Color(0xffF6ECD9),
         vacationsIconColor: Color(0xffFFC043),
         vacationTypesCardTitle: 'Sick Vacation',
         daysNumber: 16),
