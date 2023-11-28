@@ -40,7 +40,7 @@ class DashboardCard extends StatelessWidget {
           left: 20,
           child: Text(
             cardTitle!,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
                 fontSize: 15,
@@ -64,7 +64,7 @@ class DashboardCard extends StatelessWidget {
               chartColor!,
             ],
             centerText: '${(useDays! / totalDays! * 100).toStringAsFixed(1)}%',
-            chartValuesOptions: ChartValuesOptions(
+            chartValuesOptions: const ChartValuesOptions(
                 showChartValuesInPercentage: true,
                 showChartValueBackground: false,
                 showChartValues: false,

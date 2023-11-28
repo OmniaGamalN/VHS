@@ -16,75 +16,81 @@ class ReusableBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SvgPicture.asset('images/layout.svg'),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 55,
-            ),
-            Center(
-              child: const Image(
-                image: AssetImage('images/ejada_logo.png'),
-                width: 98,
-                height: 32,
+        Positioned(top: 0, child: SvgPicture.asset('images/layout.svg')),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 30,
               ),
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                    size: 40,
+              Center(
+                child: const Image(
+                  image: AssetImage('images/ejada_logo.png'),
+                  width: 98,
+                  height: 32,
+                ),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
-                ),
-                Spacer(
-                  flex: 12,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset('images/profileIcon.svg'),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                SvgPicture.asset(
-                  'images/row.svg',
-                ),
-                Spacer(
-                  flex: 1,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                '${inputString!} ${username!}',
-                textAlign: TextAlign.start,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 25,
-                    fontFamily: 'Bahij'),
+                  Spacer(
+                    flex: 12,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: SvgPicture.asset('images/profileIcon.svg'),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  SvgPicture.asset(
+                    'images/row.svg',
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                formattedDate,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    fontFamily: 'Bahij'),
+              SizedBox(
+                height: 5,
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  '${inputString!} ${username!}',
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                      fontFamily: 'Bahij'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  formattedDate,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontFamily: 'Bahij'),
+                ),
+              ),
+              SizedBox(
+                height: 55,
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -1,9 +1,13 @@
+import 'package:challene1/constent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import '../Seveices/our_feature_card.dart';
 import '../Seveices/reusable_background.dart';
-import '../Seveices/reusable_card2.dart';
-import '../Seveices/rusable_card1.dart';
+import '../Seveices/my_vacations_card.dart';
+import '../Seveices/dashboardcard1.dart';
+import '../Seveices/vacations_types_card.dart';
 
 class DashboardPage extends StatefulWidget {
   //static const String? id = 'welcome_page';
@@ -28,7 +32,8 @@ class _DashboardPageState extends State<DashboardPage> {
   final Color pieChartColor = const Color(0xff013168);
   String? cardTitle = 'Regular Vacation';
   Color dashboardCardColor = Colors.white;
-  Color vacationCardColor = Color(0xffE4EFF5);
+  Color vacationCardColor = const Color(0xffE4EFF5);
+  Color vacationsIconColor = const Color(0xff0C57A8);
   Color myVacationCardColor = Colors.white;
   String? vacationsTitle = 'Sick Vacation';
   String? requestedDate = '07-2-2023 02:23';
@@ -41,6 +46,77 @@ class _DashboardPageState extends State<DashboardPage> {
   Color? boxColor = const Color(0xffFCD0CD);
   String? inputString = 'Welcome';
   String? featureTitle = 'Request Vacation Remotely';
+  String? imageName = 'icon1';
+  String? featureCardTitle = 'Request Vacation Remotely';
+  Color featureCardColor = Colors.white;
+  String featureIcon = 'icon1';
+  int daysNumber = 21;
+  List<Widget> dashboardList = [
+    DashboardCard(
+      cardTitle: 'Regular Vacation',
+      useDays: 5,
+      cardColor: Colors.white,
+      totalDays: 21,
+      chartColor: const Color(0xff0C57A8),
+    ),
+    DashboardCard(
+        cardTitle: 'Sick Vacation',
+        cardColor: Colors.white,
+        useDays: 12,
+        totalDays: 21,
+        chartColor: Colors.tealAccent)
+  ];
+  List<Widget> vacationsTypesList = [
+    const VacationsTypesCard(
+        vacationCardColor: Color(0xffE4EFF5),
+        vacationsIconColor: Color(0xff0C57A8),
+        vacationTypesCardTitle: 'Regular Vacation',
+        daysNumber: 16),
+    const VacationsTypesCard(
+        vacationCardColor: Color(0xffF6ECD9),
+        vacationsIconColor: Color(0xffFFC043),
+        vacationTypesCardTitle: 'Sick Vacation',
+        daysNumber: 16),
+  ];
+  String? vacationTypesCardTitle = 'Regular Vacation';
+  List<String> featureList = [
+    'Request your vacation, Track the request and Receive the response.',
+    'Each request will follow the workflow to the mangers for approval.',
+  ];
+  List<Widget> myVacationsList = [
+    MyVacationCard(
+        vacationsTitle: 'Sick Vacation',
+        requestedDate: '07-2-2023 02:23',
+        period: '2',
+        startDate: '06-2-2023',
+        endDate: '08-2-2023',
+        statusCode: 3),
+    MyVacationCard(
+        vacationsTitle: 'Regular Vacation',
+        requestedDate: '07-12-2022 011:23',
+        period: '2',
+        startDate: '06-2-2023',
+        endDate: '08-2-2023',
+        statusCode: 1)
+  ];
+  List<Widget> ourFeatureList = [
+    const OurFeatureCard(
+        featureCardColor: Colors.white,
+        featureCardTitle: 'Request Vacation Remotely',
+        featureList: [
+          'Request your vacation, Track the request and Receive the response.',
+          'Each request will follow the workflow to the mangers for approval.',
+        ],
+        icon: 'icon1'),
+    const OurFeatureCard(
+        featureCardColor: Colors.white,
+        featureCardTitle: 'Request Vacation Remotely',
+        featureList: [
+          'Request your vacation, Track the request and Receive the response.',
+          'Each request will follow the workflow to the mangers for approval.',
+        ],
+        icon: 'icon1')
+  ];
   void setUserData(dynamic data) {
     username = data['username'];
     email = data['email'];
@@ -50,116 +126,140 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     DateTime myDate = DateTime.now();
     String formattedDate = DateFormat('d MMMM, y').format(myDate);
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Stack(
-        children: [
-          ReusableBackground(
-            inputString: inputString,
-            username: username,
-            formattedDate: formattedDate,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 250,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Text(
-                  'My Dashboard',
-                  style: TextStyle(
-                    fontFamily: 'Bahij',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff444446),
-                  ),
+    return SafeArea(
+      child: Scaffold(
+          body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            ReusableBackground(
+              inputString: inputString,
+              username: username,
+              formattedDate: formattedDate,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 240,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: DashboardCard(
-                  cardTitle: cardTitle,
-                  useDays: useDays,
-                  cardColor: dashboardCardColor,
-                  totalDays: 21,
-                  chartColor: const Color(0xff013168),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  'Vacations Types',
-                  style: TextStyle(
-                    fontFamily: 'Bahij',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff444446),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: 207,
-                      height: 163,
-                      child: Card(
-                        color: vacationCardColor,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Text(
+                    'My Dashboard',
+                    style: TextStyle(
+                      fontFamily: 'Bahij',
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff444446),
                     ),
-                  ],
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  'My vacations',
-                  style: TextStyle(
-                    fontFamily: 'Bahij',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff444446),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: ReusableCard2(
-                    vacationsTitle: vacationsTitle,
-                    requestedDate: requestedDate,
-                    period: period,
-                    startDate: startDate,
-                    endDate: endDate,
-                    statusCode: statusCode),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  'Our Features',
-                  style: TextStyle(
-                    fontFamily: 'Bahij',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff444446),
+                SizedBox(
+                  height: 220,
+                  //color: Colors.white,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: dashboardList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          left: 5.0,
+                        ),
+                        child: dashboardList[index],
+                      );
+                    },
                   ),
                 ),
-              ),
-              Card(
-                elevation: 5,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-              )
-            ],
-          )
-        ],
-      ),
-    ));
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    'Vacations Types',
+                    style: TextStyle(
+                      fontFamily: 'Bahij',
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff444446),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 170,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: vacationsTypesList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: vacationsTypesList[index],
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    'My vacations',
+                    style: TextStyle(
+                      fontFamily: 'Bahij',
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff444446),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 215,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: myVacationsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: myVacationsList[index],
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    'Our Features',
+                    style: TextStyle(
+                      fontFamily: 'Bahij',
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff444446),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 220,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: ourFeatureList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: ourFeatureList[index],
+                      );
+                    },
+                  ),
+                ),
+                // OurFeatureCard(
+                //   featureCardColor: featureCardColor,
+                //   featureCardTitle: featureCardTitle,
+                //   featureList: featureList,
+                //   icon: featureIcon,
+                // ),
+              ],
+            )
+          ],
+        ),
+      )),
+    );
   }
 }
