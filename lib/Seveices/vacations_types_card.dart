@@ -8,7 +8,7 @@ class VacationsTypesCard extends StatelessWidget {
     required this.daysNumber,
   });
 
-  final Color vacationsIconColor;
+  final String vacationsIconColor;
   final String? vacationTypesCardTitle;
   final int daysNumber;
 
@@ -20,7 +20,10 @@ class VacationsTypesCard extends StatelessWidget {
           width: 207,
           height: 163,
           child: Card(
-            color: vacationsIconColor.withOpacity(0.3),
+            color: Color(
+                    int.parse(vacationsIconColor!.substring(1), radix: 16) +
+                        0xFF000000)
+                .withOpacity(0.3),
             elevation: 1,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -34,7 +37,9 @@ class VacationsTypesCard extends StatelessWidget {
               CircleAvatar(
                 child: Icon(
                   Icons.calendar_month,
-                  color: vacationsIconColor,
+                  color: Color(
+                      int.parse(vacationsIconColor!.substring(1), radix: 16) +
+                          0xFF000000),
                 ),
                 backgroundColor: Colors.white,
               ),
@@ -56,7 +61,9 @@ class VacationsTypesCard extends StatelessWidget {
                         fontFamily: 'Bahij',
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
-                        color: vacationsIconColor),
+                        color: Color(int.parse(vacationsIconColor!.substring(1),
+                                radix: 16) +
+                            0xFF000000)),
                   ),
                   Text(
                     'Days',

@@ -17,7 +17,7 @@ class MyVacationCard extends StatelessWidget {
   final Color myVacationCardColor;
   final String? vacationsTitle;
   final String? requestedDate;
-  final String? period;
+  final int? period;
   final String? startDate;
   final String? endDate;
   final int? statusCode;
@@ -67,7 +67,7 @@ class MyVacationCard extends StatelessWidget {
                         fontFamily: 'Bahij'),
                   ),
                   const SizedBox(
-                    width: 70,
+                    width: 50,
                   ),
                   SvgPicture.asset('images/${statusCheck(statusCode!)}.svg')
                 ],
@@ -94,10 +94,10 @@ class MyVacationCard extends StatelessWidget {
                   Column(
                     children: [
                       const ReusableComponent(
-                        title: 'Period',
+                        title: 'Period  ',
                       ),
                       Text(
-                        period!,
+                        '$period',
                         //textAlign: TextAlign.start,
                         style: kDateText,
                       )
@@ -106,14 +106,14 @@ class MyVacationCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 50,
+                height: 40,
               ),
               Row(
                 children: [
                   Column(
                     children: [
                       const ReusableComponent(
-                        title: 'Start Date',
+                        title: 'Start Date  ',
                       ),
                       Text(
                         startDate!,
@@ -122,7 +122,7 @@ class MyVacationCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    width: 90,
+                    width: 70,
                   ),
                   Column(
                     children: [
@@ -139,7 +139,27 @@ class MyVacationCard extends StatelessWidget {
               )
             ],
           ),
-        )
+        ),
+        const Positioned(
+          left: 220,
+          top: 141,
+          child: Image(
+            image: AssetImage(
+              'images/Intersect.png',
+            ),
+          ),
+        ),
+        Positioned(
+          left: 265,
+          top: 175,
+          child: GestureDetector(
+            child: const Image(
+              image: AssetImage(
+                'images/Arow.png',
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

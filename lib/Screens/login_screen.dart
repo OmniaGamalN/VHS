@@ -42,9 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
     prefs.setString('password', password);
   }
 
-  void setTokens(SharedPreferences prefs) {
+  Future<void> setTokens() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('jwtToken', userData['jwtToken']);
-    prefs.setString('id', 'id');
+    prefs.setInt('id', userData['id']);
   }
 
   void loginIsRememberMe() async {
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (userName != null && password != null) {
       bool checkValue = await checkUsrValidation(userName, password);
       if (checkValue) {
-        setTokens(prefs);
+        setTokens();
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => DashboardPage(userData)));
       }
@@ -184,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       usernameController.text.toString(),
                                       passwordController.text.toString());
                                 }
+                                await setTokens();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

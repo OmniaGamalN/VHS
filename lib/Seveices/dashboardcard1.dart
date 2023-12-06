@@ -12,7 +12,7 @@ class DashboardCard extends StatelessWidget {
   });
   final Color? cardColor;
   final String? cardTitle;
-  final Color? chartColor;
+  final String? chartColor;
   final List<Color> colorList = [
     const Color(0xffF2F2F7),
     const Color(0xff013168),
@@ -61,16 +61,19 @@ class DashboardCard extends StatelessWidget {
             baseChartColor: Color(0xffF2F2F7),
             colorList: [
               const Color(0xffF2F2F7),
-              chartColor!,
+              Color(
+                  int.parse(chartColor!.substring(1), radix: 16) + 0xFF000000),
             ],
-            centerText: '${(useDays! / totalDays! * 100).toStringAsFixed(1)}%',
+            centerText: totalDays != 0
+                ? '${(useDays! / totalDays! * 100).toStringAsFixed(2)}%'
+                : '0%',
             chartValuesOptions: const ChartValuesOptions(
                 showChartValuesInPercentage: true,
                 showChartValueBackground: false,
                 showChartValues: false,
                 decimalPlaces: 1),
-            totalValue: 21,
-            legendOptions: LegendOptions(
+            totalValue: totalDays!.toDouble(),
+            legendOptions: const LegendOptions(
               legendPosition: LegendPosition.bottom,
               showLegendsInRow: true,
               legendTextStyle: TextStyle(

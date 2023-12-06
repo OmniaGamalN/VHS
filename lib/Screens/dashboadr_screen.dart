@@ -1,13 +1,19 @@
+import 'dart:ffi';
+
 import 'package:challene1/constent.dart';
+import 'package:challene1/networking/get_emp_vacations_req.dart';
+import 'package:challene1/networking/get_emp_vacations_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-
 import '../Seveices/our_feature_card.dart';
 import '../Seveices/reusable_background.dart';
 import '../Seveices/my_vacations_card.dart';
 import '../Seveices/dashboardcard1.dart';
 import '../Seveices/vacations_types_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../networking/get_vacations_types.dart';
 
 class DashboardPage extends StatefulWidget {
   //static const String? id = 'welcome_page';
@@ -19,84 +25,15 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setUserData(widget.userData);
-  }
-
-  int? useDays = 5;
-  double? shadow = 5;
-  String? perUsedDays;
-  final Color pieChartColor = const Color(0xff013168);
-  String? cardTitle = 'Regular Vacation';
-  Color dashboardCardColor = Colors.white;
-  Color vacationCardColor = const Color(0xffE4EFF5);
-  Color vacationsIconColor = const Color(0xff0C57A8);
-  Color myVacationCardColor = Colors.white;
-  String? vacationsTitle = 'Sick Vacation';
-  String? requestedDate = '07-2-2023 02:23';
-  String? period = '1';
-  String? startDate = '06-2-2023';
-  String? endDate = '06-2-2023';
+  Map<String, dynamic>? empVacationCardData;
+  Map<String, dynamic>? vacationCardData;
+  Map<String, dynamic>? empVacationsRequestsCardData;
+  String? jwtToken;
+  int? id;
   String? email;
   String? username;
-  int? statusCode = 1;
-  Color? boxColor = const Color(0xffFCD0CD);
   String? inputString = 'Welcome';
-  String? featureTitle = 'Request Vacation Remotely';
-  String? imageName = 'icon1';
-  String? featureCardTitle = 'Request Vacation Remotely';
-  Color featureCardColor = Colors.white;
-  String featureIcon = 'icon1';
-  int daysNumber = 21;
-  List<Widget> dashboardList = [
-    DashboardCard(
-      cardTitle: 'Regular Vacation',
-      useDays: 5,
-      cardColor: Colors.white,
-      totalDays: 21,
-      chartColor: const Color(0xff0C57A8),
-    ),
-    DashboardCard(
-        cardTitle: 'Sick Vacation',
-        cardColor: Colors.white,
-        useDays: 12,
-        totalDays: 21,
-        chartColor: Colors.tealAccent)
-  ];
-  List<Widget> vacationsTypesList = [
-    const VacationsTypesCard(
-        vacationsIconColor: Color(0xff0C57A8),
-        vacationTypesCardTitle: 'Regular Vacation',
-        daysNumber: 16),
-    const VacationsTypesCard(
-        vacationsIconColor: Color(0xffFFC043),
-        vacationTypesCardTitle: 'Sick Vacation',
-        daysNumber: 16),
-  ];
-  String? vacationTypesCardTitle = 'Regular Vacation';
-  List<String> featureList = [
-    'Request your vacation, Track the request and Receive the response.',
-    'Each request will follow the workflow to the mangers for approval.',
-  ];
-  List<Widget> myVacationsList = [
-    MyVacationCard(
-        vacationsTitle: 'Sick Vacation',
-        requestedDate: '07-2-2023 02:23',
-        period: '2',
-        startDate: '06-2-2023',
-        endDate: '08-2-2023',
-        statusCode: 3),
-    MyVacationCard(
-        vacationsTitle: 'Regular Vacation',
-        requestedDate: '07-12-2022 011:23',
-        period: '2',
-        startDate: '06-2-2023',
-        endDate: '08-2-2023',
-        statusCode: 1)
-  ];
+  List<dynamic> empVacationsTypesList = [];
   List<Widget> ourFeatureList = [
     const OurFeatureCard(
         featureCardColor: Colors.white,
@@ -108,16 +45,186 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: 'icon1'),
     const OurFeatureCard(
         featureCardColor: Colors.white,
-        featureCardTitle: 'Request Vacation Remotely',
+        featureCardTitle: 'Edit & Delete Requests',
         featureList: [
-          'Request your vacation, Track the request and Receive the response.',
-          'Each request will follow the workflow to the mangers for approval.',
+          'You can delete or modify any vacation request as long as no action was taken.'
         ],
-        icon: 'icon1')
+        icon: 'icon2'),
+    const OurFeatureCard(
+        featureCardColor: Colors.white,
+        featureCardTitle: 'Vacations History',
+        featureList: [
+          'ou can view all your vacations and have statistics for better overview of your vacation flow.You can filter your vacations according to your preferable aspects'
+        ],
+        icon: 'icon3'),
   ];
   void setUserData(dynamic data) {
     username = data['username'];
     email = data['email'];
+  }
+
+  Future<void> getTokens() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    jwtToken = prefs.getString('jwtToken');
+    id = prefs.getInt('id');
+  }
+
+  Future<bool> getEmpVacationsTypes() async {
+    if (jwtToken != null && id != null) {
+      EmpVacationsTypesModel empVacationsTypesModel =
+          EmpVacationsTypesModel(jwtToken!, id!);
+      try {
+        empVacationCardData =
+            await empVacationsTypesModel.postEmpVacationsTypes();
+        return true;
+      } catch (e) {
+        //print(e);
+        return false;
+      }
+    } else {
+      //print('Error');
+      return false;
+    }
+  }
+
+  List<Widget> dashboardList = [];
+  Future<void> setEmpVacationsTypesVal() async {
+    empVacationsTypesList = await empVacationCardData!['vacationType'];
+    int? usedDays;
+    int? totalDays;
+    for (int i = 0; i < empVacationsTypesList.length; i++) {
+      totalDays = empVacationsTypesList[i]["value"];
+      usedDays = totalDays != 0 ? empVacationsTypesList[i]["usedValue"] : 0;
+
+      setState(() {
+        dashboardList.add(
+          DashboardCard(
+            cardTitle: empVacationsTypesList[i]["description"],
+            useDays: usedDays,
+            chartColor: empVacationsTypesList[i]["outerColor"],
+            totalDays: totalDays,
+          ),
+        );
+      });
+    }
+  }
+
+  List<dynamic> vacationsTypesDataList = [];
+  List<Widget> vacationsTypesList = [];
+  Future<bool> getVacationsTypes() async {
+    if (jwtToken != null && id != null) {
+      VacationsTypesModel vacationsTypesModel =
+          VacationsTypesModel(jwtToken!, id!);
+      try {
+        vacationCardData = await vacationsTypesModel.postVacationsTypes();
+        return true;
+      } catch (e) {
+        //print(e);
+        return false;
+      }
+    } else {
+      //print('Error');
+      return false;
+    }
+  }
+
+  Future<void> setVacationsTypesVal() async {
+    vacationsTypesDataList = await vacationCardData!['vacationTypes'];
+    for (int i = 0; i < vacationsTypesDataList.length; i++) {
+      setState(() {
+        vacationsTypesList.add(
+          VacationsTypesCard(
+              vacationsIconColor: vacationsTypesDataList[i]["outerColor"],
+              vacationTypesCardTitle: vacationsTypesDataList[i]["description"],
+              daysNumber: vacationsTypesDataList[i]["allowedPeriod"]),
+        );
+      });
+    }
+  }
+
+  List<dynamic> empVacationsRequestsDataList = [];
+  List<Widget> empVacationsRequestsList = [];
+  Future<bool> getEmpVacationsRequests() async {
+    if (jwtToken != null && id != null) {
+      EmpVacationsRequestsModel empVacationsRequestsModel =
+          EmpVacationsRequestsModel(jwtToken!, id!);
+      try {
+        empVacationsRequestsCardData =
+            await empVacationsRequestsModel.postEmpVacationsRequests();
+        return true;
+      } catch (e) {
+        //print(e);
+        return false;
+      }
+    } else {
+      //print('Error');
+      return false;
+    }
+  }
+
+  Future<void> setEmpVacationsRequestsVal() async {
+    empVacationsRequestsDataList =
+        await empVacationsRequestsCardData!["payload"];
+    String? vacationsTitle;
+    String? requestedDate;
+    int? period;
+    String? startDate;
+    String? endDate;
+    int? statusCode;
+    for (int i = 0; i < empVacationsRequestsDataList.length; i++) {
+      vacationsTitle = empVacationsRequestsDataList[i]["type"];
+      requestedDate = requestedDate != null
+          ? DateFormat('dd-MM-yyyy HH:mm').format(
+              DateTime.parse(
+                  empVacationsRequestsDataList[i]["requestDateString"]),
+            )
+          : '-';
+      period = empVacationsRequestsDataList[i]["period"] ?? 0;
+      startDate = startDate != null
+          ? DateFormat('dd-MM-yyyy').format(DateTime.parse(
+              empVacationsRequestsDataList[i]["startDateString"]))
+          : '-';
+      endDate = endDate != null
+          ? DateFormat('dd-MM-yyyy').format(
+              DateTime.parse(empVacationsRequestsDataList[i]["endDateString"]))
+          : '-';
+      statusCode = empVacationsRequestsDataList[i]["status"];
+      setState(() {
+        empVacationsRequestsList.add(
+          MyVacationCard(
+              vacationsTitle: vacationsTitle,
+              requestedDate: requestedDate,
+              period: period,
+              startDate: startDate,
+              endDate: endDate,
+              statusCode: statusCode),
+        );
+      });
+    }
+  }
+
+  Future<void> initSetup() async {
+    await getTokens();
+    bool empVacationsTypesCheck = await getEmpVacationsTypes();
+    if (empVacationsTypesCheck == true) {
+      await setEmpVacationsTypesVal();
+    }
+    bool vacationsTypesCheck = await getVacationsTypes();
+    if (vacationsTypesCheck == true) {
+      await setVacationsTypesVal();
+    }
+    bool empVacationsRequestsCheck = await getEmpVacationsRequests();
+    if (empVacationsRequestsCheck == true) {
+      await setEmpVacationsRequestsVal();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setUserData(widget.userData);
+    initSetup();
   }
 
   @override
@@ -159,7 +266,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: dashboardList.length,
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(
                           left: 5.0,
@@ -187,7 +294,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: vacationsTypesList.length,
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 5.0),
                         child: vacationsTypesList[index],
@@ -212,11 +319,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: myVacationsList.length,
-                    itemBuilder: (BuildContext context, int index) {
+                    itemCount: empVacationsRequestsList.length,
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 5.0),
-                        child: myVacationsList[index],
+                        child: empVacationsRequestsList[index],
                       );
                     },
                   ),
@@ -239,7 +346,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: ourFeatureList.length,
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 5.0),
                         child: ourFeatureList[index],
@@ -247,12 +354,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     },
                   ),
                 ),
-                // OurFeatureCard(
-                //   featureCardColor: featureCardColor,
-                //   featureCardTitle: featureCardTitle,
-                //   featureList: featureList,
-                //   icon: featureIcon,
-                // ),
               ],
             )
           ],
