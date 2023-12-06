@@ -17,6 +17,6 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(unselectedWidgetColor: Colors.white),
-        home: LoginScreen());
+        home: const LoginScreen());
   }
 }

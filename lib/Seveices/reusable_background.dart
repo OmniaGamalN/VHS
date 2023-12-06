@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReusableBackground extends StatelessWidget {
-  ReusableBackground({
+  const ReusableBackground({
     super.key,
     required this.inputString,
     required this.username,
@@ -22,11 +22,11 @@ class ReusableBackground extends StatelessWidget {
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              Center(
-                child: const Image(
+              const Center(
+                child: Image(
                   image: AssetImage('images/ejada_logo.png'),
                   width: 98,
                   height: 32,
@@ -42,25 +42,25 @@ class ReusableBackground extends StatelessWidget {
                     ),
                     onPressed: () {},
                   ),
-                  Spacer(
+                  const Spacer(
                     flex: 12,
                   ),
                   GestureDetector(
                     onTap: () {},
                     child: SvgPicture.asset('images/profileIcon.svg'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   SvgPicture.asset(
                     'images/row.svg',
                   ),
-                  Spacer(
+                  const Spacer(
                     flex: 1,
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Padding(
@@ -86,8 +86,8 @@ class ReusableBackground extends StatelessWidget {
                       fontFamily: 'Bahij'),
                 ),
               ),
-              SizedBox(
-                height: 55,
+              const SizedBox(
+                height: 100,
               ),
             ],
           ),
@@ -96,62 +96,3 @@ class ReusableBackground extends StatelessWidget {
     );
   }
 }
-
-// const Positioned(
-// top: 51,
-// left: 170,
-// child: Image(
-// image: AssetImage('images/ejada_logo.png'),
-// width: 98,
-// height: 32,
-// ),
-// ),
-// Positioned(
-// top: 90,
-// left: 10,
-// child: IconButton(
-// icon: const Icon(
-// Icons.notifications,
-// color: Colors.white,
-// size: 40,
-// ),
-// onPressed: () {},
-// ),
-// ),
-// Positioned(
-// top: 150,
-// left: 10,
-// child: Text(
-// '${inputString!} ${username!}',
-// style: const TextStyle(
-// color: Colors.white,
-// fontWeight: FontWeight.w500,
-// fontSize: 28,
-// fontFamily: 'Bahij'),
-// ),
-// ),
-// Positioned(
-// top: 185,
-// left: 10,
-// child: Text(
-// formattedDate,
-// style: const TextStyle(
-// color: Colors.white,
-// fontWeight: FontWeight.w500,
-// fontSize: 16,
-// fontFamily: 'Bahij'),
-// ),
-// ),
-// Positioned(
-// top: 102,
-// left: 335,
-// child: GestureDetector(
-// onTap: () {}, child: SvgPicture.asset('images/profileIcon.svg')),
-// ),
-// Positioned(
-// top: 102,
-// left: 370,
-// child: SvgPicture.asset(
-// 'images/row.svg',
-// ),
-// ),

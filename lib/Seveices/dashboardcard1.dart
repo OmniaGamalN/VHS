@@ -58,7 +58,7 @@ class DashboardCard extends StatelessWidget {
             chartRadius: MediaQuery.of(context).size.width / 4.8,
             ringStrokeWidth: 8,
             chartType: ChartType.ring,
-            baseChartColor: Color(0xffF2F2F7),
+            baseChartColor: const Color(0xffF2F2F7),
             colorList: [
               const Color(0xffF2F2F7),
               Color(

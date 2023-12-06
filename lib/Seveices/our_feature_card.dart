@@ -31,10 +31,10 @@ class OurFeatureCard extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
+        const Positioned(
           top: 5,
           left: 5.5,
-          child: const Image(
+          child: Image(
             image: AssetImage('images/back.png'),
           ),
         ),
@@ -58,7 +58,7 @@ class OurFeatureCard extends StatelessWidget {
                     fontSize: 17),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(

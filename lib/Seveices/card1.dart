@@ -19,19 +19,24 @@ class Card1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 217,
       width: 207,
       child: Card(
+        color: cardColor,
+        elevation: shadow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 2,
             ),
             Text(
               cardTitle!,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
@@ -42,13 +47,13 @@ class Card1 extends StatelessWidget {
               chartRadius: MediaQuery.of(context).size.width / 4.4,
               ringStrokeWidth: 10,
               chartType: ChartType.ring,
-              baseChartColor: Color(0xffF2F2F7),
+              baseChartColor: const Color(0xffF2F2F7),
               colorList: colorList,
-              chartValuesOptions: ChartValuesOptions(
+              chartValuesOptions: const ChartValuesOptions(
                   showChartValuesInPercentage: true,
                   showChartValueBackground: false,
                   showChartValues: true),
-              legendOptions: LegendOptions(
+              legendOptions: const LegendOptions(
                 legendPosition: LegendPosition.bottom,
                 showLegendsInRow: true,
                 legendTextStyle: TextStyle(
@@ -59,11 +64,6 @@ class Card1 extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        color: cardColor,
-        elevation: shadow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

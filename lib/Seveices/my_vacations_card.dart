@@ -155,7 +155,7 @@ class MyVacationCard extends StatelessWidget {
           child: GestureDetector(
             child: const Image(
               image: AssetImage(
-                'images/Arow.png',
+                'images/Arrow.png',
               ),
             ),
           ),
