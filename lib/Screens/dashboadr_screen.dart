@@ -84,6 +84,8 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   List<Widget> dashboardList = [];
+
+  //TODO 3: doesn't need async
   Future<void> setEmpVacationsTypesVal() async {
     empVacationsTypesList = await empVacationCardData!['vacationType'];
     int? usedDays;
@@ -92,6 +94,7 @@ class _DashboardPageState extends State<DashboardPage> {
       totalDays = empVacationsTypesList[i]["value"];
       usedDays = totalDays != 0 ? empVacationsTypesList[i]["usedValue"] : 0;
 
+      //TODO 4: Don't call set state in a loop, instead make a separate list
       setState(() {
         dashboardList.add(
           DashboardCard(
@@ -202,9 +205,11 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> initSetup() async {
     await getTokens();
     bool empVacationsTypesCheck = await getEmpVacationsTypes();
+    //TODO 2: no need for == true
     if (empVacationsTypesCheck == true) {
       await setEmpVacationsTypesVal();
     }
+    //TODO 5: what if all these functions returned false: conditional rendering
     bool vacationsTypesCheck = await getVacationsTypes();
     if (vacationsTypesCheck == true) {
       await setVacationsTypesVal();
@@ -217,7 +222,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setUserData(widget.userData);
     initSetup();

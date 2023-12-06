@@ -10,6 +10,8 @@ class DashboardCard extends StatelessWidget {
     this.cardColor = Colors.white,
     required this.totalDays,
   });
+
+  //TODO 7: No need for required final fields to be nullable in a stateless w.
   final Color? cardColor;
   final String? cardTitle;
   final String? chartColor;

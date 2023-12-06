@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+
+
+//TODO 6: remove this
 class Card1 extends StatelessWidget {
   const Card1({
     super.key,

@@ -56,15 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
       bool checkValue = await checkUsrValidation(userName, password);
       if (checkValue) {
         setTokens();
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DashboardPage(userData)));
+        //TODO 1: add a condition on context.mounted for safe navigation
+        if(context.mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashboardPage(userData)));
+        }
       }
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loginIsRememberMe();
   }

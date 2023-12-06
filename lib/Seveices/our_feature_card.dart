@@ -38,6 +38,7 @@ class OurFeatureCard extends StatelessWidget {
             image: AssetImage('images/back.png'),
           ),
         ),
+        //TODO 9: const widgets for increased performance
         Positioned(
           top: 60,
           left: 20,

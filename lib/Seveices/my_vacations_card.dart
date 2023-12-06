@@ -22,6 +22,7 @@ class MyVacationCard extends StatelessWidget {
   final String? endDate;
   final int? statusCode;
 
+  //TODO 8: final fields on stateless widget
   Map<int, String> vacationStatus = {
     1: 'Accepted',
     2: 'Rejected',
