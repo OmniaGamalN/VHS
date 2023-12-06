@@ -57,10 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (checkValue) {
         setTokens();
         //TODO 1: add a condition on context.mounted for safe navigation
-        if(context.mounted) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DashboardPage(userData)));
-        }
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DashboardPage(userData)));
       }
     }
   }
