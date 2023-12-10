@@ -46,6 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('jwtToken', userData['jwtToken']);
     prefs.setInt('id', userData['id']);
+    List<dynamic> roles = userData['roles'];
+    final jsonString = roles.join(',');
+    prefs.setString('roles', jsonString);
   }
 
   void loginIsRememberMe() async {
@@ -57,8 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
       if (checkValue) {
         setTokens();
         //TODO 1: add a condition on context.mounted for safe navigation
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DashboardPage(userData)));
+        if (context.mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashboardPage(userData)));
+        }
       }
     }
   }
@@ -186,11 +191,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       passwordController.text.toString());
                                 }
                                 await setTokens();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DashboardPage(userData)));
+                                if (context.mounted) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DashboardPage(userData)));
+                                }
                               } else {
                                 Fluttertoast.showToast(
                                     msg:

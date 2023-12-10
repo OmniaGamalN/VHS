@@ -28,7 +28,8 @@ class _DashboardPageState extends State<DashboardPage> {
   int? id;
   String? email;
   String? username;
-  String? inputString = 'Welcome';
+  String inputString = 'Welcome';
+  int circleNum = 0;
   List<dynamic> empVacationsTypesList = [];
   List<Widget> ourFeatureList = [
     const OurFeatureCard(
@@ -86,26 +87,29 @@ class _DashboardPageState extends State<DashboardPage> {
   List<Widget> dashboardList = [];
 
   //TODO 3: doesn't need async
-  Future<void> setEmpVacationsTypesVal() async {
-    empVacationsTypesList = await empVacationCardData!['vacationType'];
-    int? usedDays;
-    int? totalDays;
+  void setEmpVacationsTypesVal() {
+    empVacationsTypesList = empVacationCardData!['vacationType'];
+    int usedDays;
+    int totalDays;
+    List<Widget> addIntoList = [];
+
     for (int i = 0; i < empVacationsTypesList.length; i++) {
       totalDays = empVacationsTypesList[i]["value"];
       usedDays = totalDays != 0 ? empVacationsTypesList[i]["usedValue"] : 0;
 
       //TODO 4: Don't call set state in a loop, instead make a separate list
-      setState(() {
-        dashboardList.add(
-          DashboardCard(
-            cardTitle: empVacationsTypesList[i]["description"],
-            useDays: usedDays,
-            chartColor: empVacationsTypesList[i]["outerColor"],
-            totalDays: totalDays,
-          ),
-        );
-      });
+      addIntoList.add(
+        DashboardCard(
+          cardTitle: empVacationsTypesList[i]["description"],
+          useDays: usedDays,
+          chartColor: empVacationsTypesList[i]["outerColor"],
+          totalDays: totalDays,
+        ),
+      );
     }
+    setState(() {
+      dashboardList = addIntoList;
+    });
   }
 
   List<dynamic> vacationsTypesDataList = [];
@@ -127,18 +131,20 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  Future<void> setVacationsTypesVal() async {
-    vacationsTypesDataList = await vacationCardData!['vacationTypes'];
+  void setVacationsTypesVal() {
+    vacationsTypesDataList = vacationCardData!['vacationTypes'];
+    List<Widget> addIntoList = [];
     for (int i = 0; i < vacationsTypesDataList.length; i++) {
-      setState(() {
-        vacationsTypesList.add(
-          VacationsTypesCard(
-              vacationsIconColor: vacationsTypesDataList[i]["outerColor"],
-              vacationTypesCardTitle: vacationsTypesDataList[i]["description"],
-              daysNumber: vacationsTypesDataList[i]["allowedPeriod"]),
-        );
-      });
+      addIntoList.add(
+        VacationsTypesCard(
+            vacationsIconColor: vacationsTypesDataList[i]["outerColor"],
+            vacationTypesCardTitle: vacationsTypesDataList[i]["description"],
+            daysNumber: vacationsTypesDataList[i]["allowedPeriod"]),
+      );
     }
+    setState(() {
+      vacationsTypesList = addIntoList;
+    });
   }
 
   List<dynamic> empVacationsRequestsDataList = [];
@@ -161,15 +167,15 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  Future<void> setEmpVacationsRequestsVal() async {
-    empVacationsRequestsDataList =
-        await empVacationsRequestsCardData!["payload"];
-    String? vacationsTitle;
+  void setEmpVacationsRequestsVal() {
+    empVacationsRequestsDataList = empVacationsRequestsCardData!["payload"];
+    String vacationsTitle;
     String? requestedDate;
-    int? period;
+    int period;
     String? startDate;
     String? endDate;
-    int? statusCode;
+    int statusCode;
+    List<Widget> addIntoList = [];
     for (int i = 0; i < empVacationsRequestsDataList.length; i++) {
       vacationsTitle = empVacationsRequestsDataList[i]["type"];
       requestedDate = requestedDate != null
@@ -188,35 +194,47 @@ class _DashboardPageState extends State<DashboardPage> {
               DateTime.parse(empVacationsRequestsDataList[i]["endDateString"]))
           : '-';
       statusCode = empVacationsRequestsDataList[i]["status"];
-      setState(() {
-        empVacationsRequestsList.add(
-          MyVacationCard(
-              vacationsTitle: vacationsTitle,
-              requestedDate: requestedDate,
-              period: period,
-              startDate: startDate,
-              endDate: endDate,
-              statusCode: statusCode),
-        );
-      });
+
+      addIntoList.add(
+        MyVacationCard(
+            vacationsTitle: vacationsTitle,
+            requestedDate: requestedDate,
+            period: period,
+            startDate: startDate,
+            endDate: endDate,
+            statusCode: statusCode),
+      );
     }
+    setState(() {
+      empVacationsRequestsList = addIntoList;
+    });
   }
+
+  bool myDashboardCardCheck = true;
+  bool vacationCrdCheck = true;
+  bool empVacationCardCheck = true;
 
   Future<void> initSetup() async {
     await getTokens();
     bool empVacationsTypesCheck = await getEmpVacationsTypes();
     //TODO 2: no need for == true
-    if (empVacationsTypesCheck == true) {
-      await setEmpVacationsTypesVal();
+    if (empVacationsTypesCheck) {
+      setEmpVacationsTypesVal();
+    } else {
+      myDashboardCardCheck = false;
     }
     //TODO 5: what if all these functions returned false: conditional rendering
     bool vacationsTypesCheck = await getVacationsTypes();
-    if (vacationsTypesCheck == true) {
-      await setVacationsTypesVal();
+    if (vacationsTypesCheck) {
+      setVacationsTypesVal();
+    } else {
+      vacationCrdCheck = false;
     }
     bool empVacationsRequestsCheck = await getEmpVacationsRequests();
-    if (empVacationsRequestsCheck == true) {
-      await setEmpVacationsRequestsVal();
+    if (empVacationsRequestsCheck) {
+      setEmpVacationsRequestsVal();
+    } else {
+      empVacationCardCheck = false;
     }
   }
 
@@ -238,14 +256,14 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             ReusableBackground(
               inputString: inputString,
-              username: username,
+              username: username!,
               formattedDate: formattedDate,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 240,
+                  height: 250,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -260,24 +278,23 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 220,
-                  //color: Colors.white,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: dashboardList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          left: 5.0,
-                        ),
-                        child: dashboardList[index],
-                      );
-                    },
-                  ),
-                ),
+                    height: 250,
+                    child: myDashboardCardCheck
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: dashboardList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5.0, top: 20),
+                                child: dashboardList[index],
+                              );
+                            },
+                          )
+                        : const Text('No Data')),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: EdgeInsets.only(left: 24.0, top: 20),
                   child: Text(
                     'Vacations Types',
                     style: TextStyle(
@@ -289,21 +306,23 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 170,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: vacationsTypesList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: vacationsTypesList[index],
-                      );
-                    },
-                  ),
-                ),
+                    height: 200,
+                    child: vacationCrdCheck
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: vacationsTypesList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5.0, top: 20),
+                                child: vacationsTypesList[index],
+                              );
+                            },
+                          )
+                        : const Text('No Data')),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: EdgeInsets.only(left: 24.0, top: 20),
                   child: Text(
                     'My vacations',
                     style: TextStyle(
@@ -315,21 +334,23 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 215,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: empVacationsRequestsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: empVacationsRequestsList[index],
-                      );
-                    },
-                  ),
-                ),
+                    height: 250,
+                    child: empVacationCardCheck
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: empVacationsRequestsList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5.0, top: 20),
+                                child: empVacationsRequestsList[index],
+                              );
+                            },
+                          )
+                        : const Text('No Data')),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: EdgeInsets.only(left: 24.0, top: 20),
                   child: Text(
                     'Our Features',
                     style: TextStyle(
@@ -348,17 +369,42 @@ class _DashboardPageState extends State<DashboardPage> {
                     itemCount: ourFeatureList.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
+                        padding: const EdgeInsets.only(left: 5.0, top: 20),
                         child: ourFeatureList[index],
                       );
                     },
                   ),
                 ),
+                // Center(
+                //   child: Row(
+                //     children: [
+                //       ReusableCircle(),
+                //       ReusableCircle(),
+                //       ReusableCircle(),
+                //     ],
+                //   ),
+                // )
               ],
             )
           ],
         ),
       )),
+    );
+  }
+}
+
+class ReusableCircle extends StatelessWidget {
+  const ReusableCircle({super.key, this.colour = Colors.grey});
+  final Color colour;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: colour),
+      ),
     );
   }
 }

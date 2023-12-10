@@ -9,7 +9,7 @@ class VacationsTypesCard extends StatelessWidget {
   });
 
   final String vacationsIconColor;
-  final String? vacationTypesCardTitle;
+  final String vacationTypesCardTitle;
   final int daysNumber;
 
   @override
@@ -46,7 +46,7 @@ class VacationsTypesCard extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                vacationTypesCardTitle!,
+                vacationTypesCardTitle,
                 style: const TextStyle(
                     fontFamily: 'Bahij',
                     fontWeight: FontWeight.w500,

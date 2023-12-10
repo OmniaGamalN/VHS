@@ -12,15 +12,15 @@ class DashboardCard extends StatelessWidget {
   });
 
   //TODO 7: No need for required final fields to be nullable in a stateless w.
-  final Color? cardColor;
-  final String? cardTitle;
-  final String? chartColor;
+  final Color cardColor;
+  final String cardTitle;
+  final String chartColor;
   final List<Color> colorList = [
     const Color(0xffF2F2F7),
     const Color(0xff013168),
   ];
-  final int? useDays;
-  final int? totalDays;
+  final int useDays;
+  final int totalDays;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class DashboardCard extends StatelessWidget {
           top: 14,
           left: 20,
           child: Text(
-            cardTitle!,
+            cardTitle,
             style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
@@ -63,18 +63,17 @@ class DashboardCard extends StatelessWidget {
             baseChartColor: const Color(0xffF2F2F7),
             colorList: [
               const Color(0xffF2F2F7),
-              Color(
-                  int.parse(chartColor!.substring(1), radix: 16) + 0xFF000000),
+              Color(int.parse(chartColor.substring(1), radix: 16) + 0xFF000000),
             ],
             centerText: totalDays != 0
-                ? '${(useDays! / totalDays! * 100).toStringAsFixed(2)}%'
+                ? '${(useDays / totalDays * 100).toStringAsFixed(2)}%'
                 : '0%',
             chartValuesOptions: const ChartValuesOptions(
                 showChartValuesInPercentage: true,
                 showChartValueBackground: false,
                 showChartValues: false,
                 decimalPlaces: 1),
-            totalValue: totalDays!.toDouble(),
+            totalValue: totalDays.toDouble(),
             legendOptions: const LegendOptions(
               legendPosition: LegendPosition.bottom,
               showLegendsInRow: true,

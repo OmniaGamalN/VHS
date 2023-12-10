@@ -15,15 +15,15 @@ class MyVacationCard extends StatelessWidget {
   });
 
   final Color myVacationCardColor;
-  final String? vacationsTitle;
-  final String? requestedDate;
-  final int? period;
-  final String? startDate;
-  final String? endDate;
-  final int? statusCode;
+  final String vacationsTitle;
+  final String requestedDate;
+  final int period;
+  final String startDate;
+  final String endDate;
+  final int statusCode;
 
   //TODO 8: final fields on stateless widget
-  Map<int, String> vacationStatus = {
+  final Map<int, String> vacationStatus = {
     1: 'Accepted',
     2: 'Rejected',
     3: 'UnderApproval'
@@ -60,7 +60,7 @@ class MyVacationCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    vacationsTitle!,
+                    vacationsTitle,
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
@@ -70,7 +70,7 @@ class MyVacationCard extends StatelessWidget {
                   const SizedBox(
                     width: 50,
                   ),
-                  SvgPicture.asset('images/${statusCheck(statusCode!)}.svg')
+                  SvgPicture.asset('images/${statusCheck(statusCode)}.svg')
                 ],
               ),
               const SizedBox(
@@ -84,7 +84,7 @@ class MyVacationCard extends StatelessWidget {
                         title: 'Request Date',
                       ),
                       Text(
-                        requestedDate!,
+                        requestedDate,
                         style: kDateText,
                       ),
                     ],
@@ -117,7 +117,7 @@ class MyVacationCard extends StatelessWidget {
                         title: 'Start Date  ',
                       ),
                       Text(
-                        startDate!,
+                        startDate,
                         style: kDateText,
                       )
                     ],
@@ -131,7 +131,7 @@ class MyVacationCard extends StatelessWidget {
                         title: 'End Date',
                       ),
                       Text(
-                        endDate!,
+                        endDate,
                         style: kDateText,
                       )
                     ],

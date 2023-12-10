@@ -1,3 +1,4 @@
+import 'package:challene1/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,19 +9,22 @@ class ReusableBackground extends StatelessWidget {
     required this.username,
     required this.formattedDate,
   });
-  final String? inputString;
-  final String? username;
+  final String inputString;
+  final String username;
   final String formattedDate;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned(top: 0, child: SvgPicture.asset('images/layout.svg')),
+        Positioned(
+          top: 0,
+          child: SvgPicture.asset('images/layout.svg'),
+        ),
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 30,
@@ -46,7 +50,12 @@ class ReusableBackground extends StatelessWidget {
                     flex: 12,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfileScreen()));
+                    },
                     child: SvgPicture.asset('images/profileIcon.svg'),
                   ),
                   const SizedBox(
@@ -66,7 +75,7 @@ class ReusableBackground extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  '${inputString!} ${username!}',
+                  '$inputString $username',
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                       color: Colors.white,
@@ -87,7 +96,7 @@ class ReusableBackground extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 130,
               ),
             ],
           ),

@@ -13,9 +13,9 @@ class OurFeatureCard extends StatelessWidget {
   });
 
   final Color featureCardColor;
-  final String? featureCardTitle;
+  final String featureCardTitle;
   final List<String> featureList;
-  final String? icon;
+  final String icon;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -52,7 +52,7 @@ class OurFeatureCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 70.0),
               child: Text(
-                featureCardTitle!,
+                featureCardTitle,
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Bahij',
