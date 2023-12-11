@@ -25,7 +25,12 @@ dependencies:
   intl: ^0.18.1
   pie_chart: ^5.4.0
   fl_chart: ^0.64.0
+  flutter_native_splash: ^2.3.7
 
+flutter_native_splash:
+  background_image: images/Vector.png
+  image: images/ejada_logo.png
+  branding: images/buttom.png
 
 
 
