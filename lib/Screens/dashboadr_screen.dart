@@ -31,6 +31,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String inputString = 'Welcome';
   int circleNum = 0;
   List<dynamic> empVacationsTypesList = [];
+  Color activeColor = const Color(0xff0C57A8);
+  final PageController _pageController = PageController();
   List<Widget> ourFeatureList = [
     const OurFeatureCard(
         featureCardColor: Colors.white,
@@ -245,6 +247,7 @@ class _DashboardPageState extends State<DashboardPage> {
     initSetup();
   }
 
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     DateTime myDate = DateTime.now();
@@ -363,10 +366,15 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 SizedBox(
                   height: 220,
-                  child: ListView.builder(
-                    shrinkWrap: true,
+                  child: PageView.builder(
+                    controller: _pageController,
                     scrollDirection: Axis.horizontal,
                     itemCount: ourFeatureList.length,
+                    onPageChanged: (index) {
+                      setState(() {
+                        count = index;
+                      });
+                    },
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 5.0, top: 20),
@@ -375,15 +383,23 @@ class _DashboardPageState extends State<DashboardPage> {
                     },
                   ),
                 ),
-                // Center(
-                //   child: Row(
-                //     children: [
-                //       ReusableCircle(),
-                //       ReusableCircle(),
-                //       ReusableCircle(),
-                //     ],
-                //   ),
-                // )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ReusableCircle(
+                        colour: count == 0 ? activeColor : Colors.grey,
+                      ),
+                      ReusableCircle(
+                        colour: count == 1 ? activeColor : Colors.grey,
+                      ),
+                      ReusableCircle(
+                        colour: count == 2 ? activeColor : Colors.grey,
+                      ),
+                    ],
+                  ),
+                )
               ],
             )
           ],

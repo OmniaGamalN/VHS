@@ -21,7 +21,7 @@ class OurFeatureCard extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          width: 390,
+          width: 400,
           height: 210,
           child: Card(
             elevation: 5,

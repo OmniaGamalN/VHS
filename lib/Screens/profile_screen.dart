@@ -48,25 +48,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? birthPlace;
   int? gender;
   String? joiningDate;
-
   void setProfileData() {
-    print(profileData);
+    //print(profileData);
     setState(() {
-      email = profileData!['employeeData']['email'];
-      empNo = profileData!['employeeData']['empNo'];
-      mobileNum = profileData!['employeeData']['mobileNumber'];
-      name = profileData!['employeeData']['name'];
-      departmentName = profileData!['employeeData']['departmentName'];
-      birthPlace = profileData!['employeeData']['birthPlace'];
-      gender = profileData!['employeeData']['gender'];
+      email = profileData!['employeeData']['email'] ?? '-';
+      if (email!.isEmpty) {
+        email = '-';
+      }
+      empNo = profileData!['employeeData']['empNo'] ?? '-';
+      if (empNo!.isEmpty) {
+        empNo = '-';
+      }
+      mobileNum = profileData!['employeeData']['mobileNumber'] ?? '-';
+      if (mobileNum!.isEmpty) {
+        mobileNum = '-';
+      }
+      name = profileData!['employeeData']['name'] ?? '-';
+      if (name!.isEmpty) {
+        name = '-';
+      }
+      departmentName = profileData!['employeeData']['departmentName'] ?? '-';
+      if (departmentName!.isEmpty) {
+        departmentName = '-';
+      }
+      birthPlace = profileData!['employeeData']['birthPlace'] ?? '-';
+      if (birthPlace!.isEmpty) {
+        birthPlace = '-';
+      }
+      gender = profileData!['employeeData']['gender'] ?? '-';
       birthData = profileData!['employeeData']['birthDateString'] != null
           ? DateFormat('dd-MM-yyyy').format(
               DateTime.parse(profileData!['employeeData']['birthDateString']))
           : '-';
+      if (birthData!.isEmpty) {
+        birthData = '-';
+      }
       joiningDate = profileData!['employeeData']['joiningDateString'] != null
           ? DateFormat('dd-MM-yyyy').format(
-              DateTime.parse(profileData!['employeeData']['joiningDateString']))
+              DateTime.parse(profileData!['employeeData']['joiningDateString']),
+            )
           : '-';
+      if (joiningDate!.isEmpty) {
+        joiningDate = '-';
+      }
     });
   }
 
@@ -95,10 +119,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               top: 0,
               child: SvgPicture.asset('images/layout.svg'),
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 25.0),
                   child: Center(
                     child: Image(
@@ -109,14 +133,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.arrow_back_ios,
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
                         color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      Text(
+                      const Text(
                         'Back',
                         style: TextStyle(
                             color: Colors.white,
@@ -127,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: Text(
                     'My Profile',
@@ -151,7 +178,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colors.white,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
               ),
             ),
@@ -296,9 +324,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 25.0, right: 25, top: 20),
+                const Padding(
+                  padding: EdgeInsets.only(left: 25.0, right: 25, top: 20),
                   child: Row(
                     children: [
                       Text('Gender', style: kProfileBlueText),
@@ -315,7 +342,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(gender == 0 ? 'Male' : 'Female',
                           style: kProfileBlackText),
-                      Spacer(
+                      const Spacer(
                         flex: 1,
                       ),
                       Text(joiningDate ?? '', style: kProfileBlackText),
